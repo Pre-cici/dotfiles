@@ -149,19 +149,15 @@ alias wsl="wsl.exe"
 alias ff="fastfetch"
 alias vi="nvim"
 alias chezmoi="~/.local/bin/chezmoi"
+alias cd="z"
 
 # fastfetch
 fastfetch
 
-#python
-python() {
-  if [ -z "$CONDA_DEFAULT_ENV" ]; then
-    export CONDA_BASE="$HOME/miniconda3"
-    [ -f "$CONDA_BASE/etc/profile.d/conda.sh" ] && . "$CONDA_BASE/etc/profile.d/conda.sh"
-    conda activate base >/dev/null 2>&1
-  fi
-  command python "$@"
-}
+# zoxide
+eval "$(zoxide init bash)"
+
+export PATH="$HOME/.local/bin:$PATH"
 
 # path to your neovim installation.
 export PATH="$PATH:/opt/nvim-linux-x86_64/bin"
@@ -216,5 +212,12 @@ conda() {
 }
 # <<< Lazy load Conda <<<
 
-# zoxide
-eval "$(zoxide init bash)"
+#python
+python() {
+  if [ -z "$CONDA_DEFAULT_ENV" ]; then
+    export CONDA_BASE="$HOME/miniconda3"
+    [ -f "$CONDA_BASE/etc/profile.d/conda.sh" ] && . "$CONDA_BASE/etc/profile.d/conda.sh"
+    conda activate base >/dev/null 2>&1
+  fi
+  command python "$@"
+}
