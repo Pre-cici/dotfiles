@@ -9,6 +9,10 @@
 local AutoQuit = vim.api.nvim_create_augroup("AutoQuit", { clear = true })
 local AutoCmd = vim.api.nvim_create_autocmd
 
+AutoCmd("FileType", {
+  pattern = "help",
+  command = "wincmd L",
+})
 -- When you enter q!, the command-line window will exit automatically.
 AutoCmd("CmdwinEnter", {
   group = AutoQuit,

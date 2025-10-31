@@ -43,3 +43,9 @@ opt.splitbelow = true
 -- 搜索
 opt.ignorecase = true
 opt.smartcase = true
+
+-- 延迟
+opt.timeout = true
+opt.timeoutlen = 300 -- 用于 which-key / leader 快捷键延迟
+opt.ttimeout = true
+opt.ttimeoutlen = 30 -- 仅影响 Esc/方向键识别

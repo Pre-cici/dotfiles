@@ -38,6 +38,6 @@ return {
     "m4xshen/hardtime.nvim",
     event = "VeryLazy",
     dependencies = { "MunifTanjim/nui.nvim" },
-    opts = { disable_mouse = true },
+    opts = { disable_mouse = true, max_time = 100 },
   },
 }
