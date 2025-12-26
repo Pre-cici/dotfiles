@@ -16,7 +16,7 @@ return {
     lang = "cpp",
 
     cn = { -- leetcode.cn
-      enabled = true, ---@type boolean
+      enabled = false, ---@type boolean
       translator = true, ---@type boolean
       translate_problems = true, ---@type boolean
     },
