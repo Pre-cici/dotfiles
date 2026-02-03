@@ -1,203 +1,142 @@
 return {
   {
-    "folke/snacks.nvim",
+    'folke/snacks.nvim',
     opts = {
       indent = {
-        indent = {
-          enabled = true,
-          -- only_current = true,
-          -- only_scope = true,
-          -- char = "⋮",
-          char = "",
-          -- char = "⁘",
-          hl = {
-            "RainbowDelimiterViolet",
-            "RainbowDelimiterOrange",
-            "RainbowDelimiterYellow",
-            "RainbowDelimiterGreen",
-            "RainbowDelimiterCyan",
-            "RainbowDelimiterBlue",
-            "RainbowDelimiterRed",
-          },
-        },
-        scope = {
-          enabled = true,
-          -- char = "⁚",
-          char = "│",
-          -- char = "║",
-          underline = false,
-          only_current = true,
-          hl = "RainbowDelimiterRed", ---@type string|string[] hl group for scopes
-        },
+        indent = { char = '' },
+        animate = { enabled = false },
+        scope = { char = '│', only_current = true },
         chunk = {
-          -- when enabled, scopes will be rendered as chunks, except for the
-          -- top-level scope which will be rendered as a scope.
           enabled = true,
-          -- only show chunk scopes in the current window
           only_current = true,
-          hl = "RainbowDelimiterRed", ---@type string|string[] hl group for chunk scopes
           char = {
-            -- corner_top = "┌",
-            -- corner_bottom = "└",
-            corner_top = "╭",
-            corner_bottom = "╰",
-            horizontal = "─",
-            vertical = "│",
-            arrow = "─",
+            corner_top = '╭',
+            corner_bottom = '╰',
+            horizontal = '─',
+            vertical = '│',
+            arrow = '─',
           },
         },
       },
-      dashboard = {
-        preset = {
-          -- Defaults to a picker that supports `fzf-lua`, `telescope.nvim` and `mini.pick`
-          ---@type fun(cmd:string, opts:table)|nil
-          pick = nil,
-          -- Used by the `keys` section to show keymaps.
-          -- Set your custom keymaps here.
-          -- When using a function, the `items` argument are the default keymaps.
-          ---@type snacks.dashboard.Item[]
-          keys = {
-            { icon = " ", key = "n", desc = "New File", action = ":ene | startinsert" },
-            { icon = " ", key = "r", desc = "Recent Files", action = ":lua Snacks.dashboard.pick('oldfiles')" },
-            { icon = "󰙏", key = "l", desc = "LeetCode", action = ":Leet" },
-            {
-              icon = " ",
-              key = "c",
-              desc = "Config",
-              action = ":lua Snacks.dashboard.pick('files', {cwd = vim.fn.stdpath('config')})",
-            },
-            { icon = " ", key = "s", desc = "Restore Session", section = "session" },
-            { icon = "󰒲 ", key = "L", desc = "Lazy", action = ":Lazy", enabled = package.loaded.lazy ~= nil },
-            { icon = " ", key = "x", desc = "Lazy Extras", action = ":LazyExtras" },
-            { icon = " ", key = "q", desc = "Quit", action = ":qa" },
+      statuscolumn = { folds = { open = true, git_hl = true } },
+    },
+  },
+
+  {
+    'folke/noice.nvim',
+    event = 'VeryLazy',
+    dependencies = {
+      'MunifTanjim/nui.nvim',
+      'rcarriga/nvim-notify',
+    },
+    opts = function()
+      local enable_conceal = false -- Hide command text if true
+      return {
+        cmdline = {
+          view = 'cmdline', -- The kind of popup used for :
+          format = {
+            cmdline = { icon = '', conceal = enable_conceal },
+            search_down = { conceal = enable_conceal },
+            search_up = { conceal = enable_conceal },
+            filter = { conceal = enable_conceal },
+            lua = { conceal = enable_conceal },
+            help = { conceal = enable_conceal },
+            input = { conceal = enable_conceal },
           },
-          -- Used by the `header` section
-          header = [[         
-                             █████                                          
-                            ▒▒███                                           
- ████████   ██████   █████  ███████   ████████   ██████  ████████    ██████ 
-▒▒███▒▒███ ███▒▒███ ███▒▒  ▒▒▒███▒   ▒▒███▒▒███ ███▒▒███▒▒███▒▒███  ███▒▒███
- ▒███ ▒███▒███ ▒███▒▒█████   ▒███     ▒███ ▒███▒███ ▒███ ▒███ ▒███ ▒███████ 
- ▒███ ▒███▒███ ▒███ ▒▒▒▒███  ▒███ ███ ▒███ ▒███▒███ ▒███ ▒███ ▒███ ▒███▒▒▒  
- ▒███████ ▒▒██████  ██████   ▒▒█████  ▒███████ ▒▒██████  ████ █████▒▒██████ 
- ▒███▒▒▒   ▒▒▒▒▒▒  ▒▒▒▒▒▒     ▒▒▒▒▒   ▒███▒▒▒   ▒▒▒▒▒▒  ▒▒▒▒ ▒▒▒▒▒  ▒▒▒▒▒▒  
- ▒███                                 ▒███                                  
- █████                                █████                                 
-▒▒▒▒▒                                ▒▒▒▒▒                                  ]],
         },
-        -- item field formatters
-        sections = {
+        routes = {
           {
-            { section = "header" },
-            { section = "keys", gap = 1, padding = 1 },
-            { section = "startup" },
+            filter = {
+              event = 'msg_show',
+              any = {
+                { find = '%d+L, %d+B' },
+                { find = '; after #%d+' },
+                { find = '; before #%d+' },
+              },
+            },
+            view = 'mini',
           },
+        },
+
+        messages = {
+          enabled = true,
+          view = 'mini',
+        },
+
+        lsp = {
+          hover = { enabled = false },
+          signature = { enabled = false },
+          progress = { enabled = false },
+          message = { enabled = false },
+          smart_move = { enabled = false },
+        },
+      }
+    end,
+    -- stylua: ignore
+    keys = {
+      { "<S-Enter>", function() require("noice").redirect(vim.fn.getcmdline()) end, mode = "c", desc = "Redirect Cmdline" },
+      { '<leader>nl', function() require('noice').cmd 'last' end, desc = 'Noice Last Message', },
+      { '<leader>nn', function() require('noice').cmd 'all' end, desc = 'Noice All', },
+      { '<leader>nd', function() require('noice').cmd 'dismiss' end, desc = 'Dismiss All', },
+      { '<leader>nm', ':messages <CR>', desc = 'Messages', },
+    },
+    -- config = function(_, opts)
+    --   -- HACK: noice shows messages from before it was enabled,
+    --   -- but this is not ideal when Lazy is installing plugins,
+    --   -- so clear the messages in this case.
+    --   if vim.o.filetype == 'lazy' then
+    --     vim.cmd [[messages clear]]
+    --   end
+    --   require('noice').setup(opts)
+    -- end,
+  },
+
+  {
+    'j-hui/fidget.nvim',
+    event = 'LspAttach',
+    opts = {
+      notification = {
+        window = {
+          winblend = 0,
         },
       },
     },
   },
+
   {
-    "HiPhish/rainbow-delimiters.nvim",
-    event = "VeryLazy",
-    main = "rainbow-delimiters.setup",
+    'HiPhish/rainbow-delimiters.nvim',
+    event = 'BufReadPre',
   },
+
   {
-    "lukas-reineke/virt-column.nvim",
-    event = "VeryLazy",
-    opts = {
-      -- char = "|",
-      -- char = "",
-      -- char = "┇",
-      -- char = "∶",
-      -- char = "∷",
-      -- char = "║",
-      char = "⋮",
-      -- char = "",
-      -- char = "󰮾",
-      virtcolumn = "120",
-    },
-  },
-  {
-    "brenoprata10/nvim-highlight-colors",
-    event = "BufReadPre",
+    'brenoprata10/nvim-highlight-colors',
+    event = 'BufReadPre',
     config = function()
-      require("nvim-highlight-colors").setup({})
+      require('nvim-highlight-colors').setup {}
     end,
   },
+
   {
-    "tummetott/reticle.nvim",
-    event = "VeryLazy",
-    cmd = {
-      "ReticleToggleCursorline",
-      "ReticleToggleCursorcolumn",
-      "ReticleToggleCursorcross",
-    },
+    'lukas-reineke/virt-column.nvim',
+    event = 'BufReadPre',
     opts = {
-      on_startup = {
-        cursorline = true,
-        cursorcolumn = false,
-      },
-
-      disable_in_insert = true,
-      disable_in_diff = true,
-      always_highlight_number = true,
-      -- Define filetypes which are ignored by the plugin
-      ignore = {
-        cursorline = {
-          "DressingInput",
-          "FTerm",
-          "NvimSeparator",
-          "NvimTree",
-          "TelescopePrompt",
-          "Trouble",
-          "snacks_picker_input",
-          "snacks_terminal",
-          "snacks_dashboard",
-        },
-        cursorcolumn = {
-          "snacks_picker_input",
-          "snacks_picker_list",
-          "snacks_terminal",
-          "snacks_dashboard",
-          "mason",
-          "lazy",
-          "fzf",
-        },
-      },
-
-      -- Specify filetypes where the cursorline and/or cursorcolumn should be
-      -- explicitly disabled. Typically, you would include these filetypes in
-      -- the 'ignored' table. However, there are situations where plugins enable
-      -- cursorline/cursorcolumn without offering a configuration option for
-      -- disabling them. By adding these filetypes to the 'never' table, you
-      -- can override the plugin's settings and turn off these features.
-      never = {
-        cursorline = {},
-        cursorcolumn = {},
-      },
+      char = '⋮', -- "|", "", "┇", "∶", "∷", "║", "", "󰮾",
+      virtcolumn = '120',
     },
   },
+
   {
-    "sphamba/smear-cursor.nvim",
-    event = "VeryLazy",
-    cond = vim.g.neovide == nil,
-    opts = { -- Default  Range
-      stiffness = 0.8,
-      trailing_stiffness = 0.6,
-      stiffness_insert_mode = 0.7,
-      trailing_stiffness_insert_mode = 0.7,
-      damping = 0.95,
-      damping_insert_mode = 0.95,
-      distance_stop_animating = 0.5,
-    },
-    specs = {
-      -- disable mini.animate cursor
-      {
-        "nvim-mini/mini.animate",
-        optional = true,
-        opts = {
-          cursor = { enable = false },
+    'tummetott/reticle.nvim',
+    event = 'BufReadPre',
+    opts = {
+      always_highlight_number = true,
+      ignore = {
+        cursorline = {
+          'Trouble',
+          'snacks_picker_list',
+          'snacks_picker_input',
         },
+        cursorcolumn = {},
       },
     },
   },

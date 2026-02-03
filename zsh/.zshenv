@@ -1,8 +1,3 @@
-# ~/.zshenv
-# ======================================
-#  XDG Base Directory Configuration
-# ======================================
-
 export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
 export XDG_CACHE_HOME="${XDG_CACHE_HOME:-$HOME/.cache}"
 export XDG_DATA_HOME="${XDG_DATA_HOME:-$HOME/.local/share}"
@@ -18,3 +13,7 @@ export VISUAL="nvim"
 export PATH="$HOME/.local/bin:$PATH"
 
 source "$HOME/.cargo/env"
+
+# nvm
+export NVM_DIR="$XDG_CONFIG_HOME/nvm"
+source "$NVM_DIR/nvm.sh"
