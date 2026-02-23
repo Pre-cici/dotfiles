@@ -1,0 +1,581 @@
+* {
+	font-size: 13px;
+	color: #cdd6f4;
+	font-weight: 700;
+	font-family: "MonaspiceRn NF","JetBrainsMono NFP";
+	margin: 0;
+	padding: 0;
+}
+.yasb-bar {
+	padding: 0 8px;
+	margin: 0;
+    background-color: rgba(30, 30, 46, 0.25);
+}
+.widget {
+	padding: 0 8px;
+	margin: 0;
+}
+.widget .label {
+	padding: 0px 2px 2px 2px;
+}
+.widget .label.alt {
+	padding: 1px 8px 1px 8px;
+}
+.apps-widget {
+    padding: 0 4px;
+}
+.apps-widget .widget-container {
+    background-color: rgba(255, 255, 255, 0.1);
+    margin: 5px 0 4px 0;
+    border-radius: 13px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+}
+.apps-widget .label {
+	font-size: 14px;
+	padding:0px 2px 1px 2px;
+}
+.apps-widget .label:hover {
+	color: #fff;
+}
+.active-window-widget .icon {
+    padding: 0 0 0 0;
+}
+/*POWER MENU WIDGET*/
+.uptime {
+	font-size: 14px;
+	margin-bottom: 10px;
+	color: #ffffff;
+	font-weight: 600;
+	font-family: "Segoe UI";
+}
+.power-menu-widget .label {
+	color: #f38ba8;
+	font-size: 13px;
+}
+.power-menu-popup {
+	background-color: rgba(24, 24, 37, 0.9);
+	border-radius: 12px;
+	border: 4px solid rgb(41, 42, 58);
+}
+.power-menu-popup .button {
+	padding: 0;
+	width: 240px;
+	height: 120px;
+	border-radius: 8px;
+	background-color: rgb(41, 42, 58);
+	font-family: "Segoe UI";
+	color: white;
+	border: 1px solid rgba(255, 255, 255, 0.1);
+	margin: 8px;
+}
+.power-menu-popup .button.hover {
+	background-color: rgb(55, 56, 75);
+	border: 1px solid rgb(55, 56, 75);
+}
+.power-menu-popup .button .label {
+	margin-bottom: 8px;
+	font-size: 16px;
+	font-weight: 600;
+	color: rgba(255, 255, 255, 0.95);
+	font-family: "Segoe UI";
+}
+.power-menu-popup .button .icon {
+	font-size: 48px;
+	padding-top: 8px;
+	color: rgba(255, 255, 255, 0.25);
+}
+.power-menu-popup .button.cancel .icon {
+	color: rgba(243, 139, 168, 0.55);
+}
+.power-menu-popup .button.cancel .label {
+	color: rgba(243, 139, 168, 0.95);
+}
+.power-menu-popup .button.shutdown .icon {
+	color: rgba(137, 180, 250, 0.55);
+}
+.power-menu-popup .button.shutdown .label {
+	color: rgba(137, 180, 250, 0.95);
+}
+
+
+/* MEDIA MEDIA MEDIA MEDIA MEDIA MEDIA MEDIA MEDIA MEDIA MEDIA MEDIA */
+.media-widget {
+    padding: 0px;
+}
+.media-widget .widget-container {
+    background: var(--widget-background);
+    border-radius: 0px;
+}
+.media-widget .widget-container:hover {
+    background: rgba(203, 166, 247, 0.2);
+}
+.media-widget .label {
+    font-size: 12px;
+}
+.media-widget .btn {
+    color: #9498a8;
+    padding: 0 4px;
+    margin: 0;
+    font-weight: 400;
+}
+.media-widget .btn:hover {
+    color: #babfd3;
+}
+.media-widget .btn.play {
+    font-size: 16px;
+}
+.media-widget .btn.disabled:hover,
+.media-widget .btn.disabled {
+    color: #4e525c;
+    font-size: 12px;
+    background-color: rgba(0, 0, 0, 0);
+}
+.media-menu {
+    background-color: var(--widget-background);
+    border-radius: 10px;
+    min-width: 420px;
+    max-width: 420px;
+}
+.media-menu .source {
+    font-size: 14px;
+    font-weight: 600;
+    margin-left: 10px;
+}
+.media-menu .title{
+    margin-left: 10px;
+    font-size: 16px;
+    color: var(--pinkish);    
+}
+.media-menu .artist {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--white);
+    margin-top: 0px;
+    margin-bottom: 8px;
+    margin-left: 12px;
+}
+.media-menu .source {
+    font-size: 11px;
+    color:var(--white);
+    font-weight: normal;
+    border-radius: 3px;
+    background-color: var(--pinkish);
+    padding: 2px 4px;
+}
+.media-menu .source.spotify {
+    background-color: var(--green);
+}
+.media-menu .btn {
+    color: var(--white);
+    font-size: 14px;
+    font-weight: 400;
+    margin: 10px 2px 0px 2px;
+    min-width: 40px;
+    max-width: 40px;
+    min-height: 40px;
+    max-height: 40px;
+    border-radius: 20px;
+}
+.media-menu .btn.prev {
+    margin-left: 10px;
+}
+.media-menu .btn:hover {
+    color: var(--pinkish);
+    background: var(--widget-background);
+}
+.media-menu .btn.play {
+    background-color: rgba(255, 255, 255, 0.1);
+    font-size: 20px
+}
+.media-menu .btn.disabled:hover,
+.media-menu .btn.disabled {
+    color: #4e525c;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.media-menu .playback-time {
+    font-size: 13px;
+    color: var(--white);
+    margin-top: 20px;
+    min-width: 100px;
+}
+.media-menu .progress-slider {
+    height: 10px;
+    margin: 5px 4px;
+    border-radius: 3px;
+    color: var(--pinkish);
+}
+.media-menu .progress-slider::groove {
+    background: transparent;
+    height: 2px;
+    border-radius: 3px;
+    background: rgba(255, 255, 255, 0.1);
+}
+.media-menu .progress-slider::groove:hover {
+    background: transparent;
+    height: 6px;
+    border-radius: 3px;
+    background: rgba(255, 255, 255, 0.2);
+}
+.media-menu .progress-slider::sub-page {
+    background: var(--pinkish);
+    border-radius: 3px;
+    height: 4px;
+}
+
+/* TASBAR WIDGET */
+.taskbar-widget .app-container {
+    margin: 4px 2px;
+    border-radius: 4px;
+    padding: 0 4px;
+}
+.taskbar-widget .app-container.foreground {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+.taskbar-widget .app-container.flashing {
+    background-color: rgba(255, 106, 106, 0.63);
+}
+.taskbar-widget .app-container .app-title {
+    padding-left: 4px;
+}
+/* Taskbar preview popup is very limited in styling options, do not use margins/paddings here */
+.taskbar-preview {
+    border-radius: 8px; 
+    background-color: #2b2c2d; 
+}
+.taskbar-preview.flashing { 
+    background-color: #7f434a;
+}
+.taskbar-preview .header {
+    padding-bottom: 12px;
+    padding-top: 4px;
+}
+.taskbar-preview .header .title {
+    color: #d6d6d6;
+    font-family: "Segoe UI";
+    font-weight: 600;
+    font-size: 13px;
+}
+
+/* SYSTRAY */
+.systray {
+    padding: 0 0px 0 6px;
+    background-color: var(transparent);
+    border-radius: 12;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+.systray .button {
+    border-radius: 4px;
+    padding: 4px 2px;
+}
+.systray .button:hover {
+    background: rgba(203, 166, 247, 0.2);
+}
+.systray .button[dragging=true] {
+    background: rgba(203, 166, 247, 0.5);
+}
+.systray .unpinned-visibility-btn {
+    border-radius: 0px; /* Don't touch */
+    height: 20px;
+    width: 16px;
+}
+.systray .unpinned-visibility-btn:hover {
+    border: 1px solid #AAAAAA;
+    border-radius: 4px;
+    border-color: #AAAAAA;
+}
+
+/* glazewm-workspaces */
+/*GLAZEWM-WORKSPACES*/
+/* .glazewm-workspaces {
+    margin: 0;
+}
+
+.glazewm-workspaces .ws-btn {
+    font-size: 16px;
+    background-color: transparent;
+    border: none;
+    padding: 0px 4px 0px 4px;
+    margin: 0 2px 0 2px;
+    color: #CDD6F4;
+}
+
+.glazewm-workspaces .ws-btn.active_populated {
+    color: #C2DAF7;
+}
+.glazewm-workspaces .ws-btn.active_empty {
+    color: #7D8B9D;
+}  
+.glazewm-workspaces .ws-btn.populated {
+    color: #C2DAF7;
+} */
+
+.glazewm-workspaces {
+    margin: 0;
+}
+
+.glazewm-workspaces .ws-btn {
+    font-size: 14px;
+    background-color: transparent;
+    border: none;
+    padding: 0px 4px 0px 4px;
+    margin: 0 2px 0 2px;
+    color: #CDD6F4;
+}
+
+.glazewm-workspaces .ws-btn.active_populated {
+    color: #C2DAF7;
+    background-color: #727272;
+}
+.glazewm-workspaces .ws-btn.active_empty {
+    color: #7D8B9D;
+    background-color: #727272;
+}
+
+.glazewm-workspaces .ws-btn.populated {
+    color: #C2DAF7;
+}
+
+.glazewm-workspaces .ws-btn.empty {
+    color: #7D8B9D;
+}
+
+.glazewm-workspaces .ws-btn:hover,
+.glazewm-workspaces .ws-btn.populated:hover,
+.glazewm-workspaces .ws-btn.empty:hover {
+    background-color: #727272;
+}
+
+.glazewm-binding-mode {
+    background-color: var(--crust);
+    margin: 4px 0;
+    border-radius: 12px;
+    border: 0;
+}
+
+.glazewm-binding-mode .label {
+    color: var(--text);
+    font-size: 12px;
+}
+
+.glazewm-binding-mode .label-offline {
+    color: var(--subtext0);
+    font-size: 10px;
+}
+
+.glazewm-binding-mode .icon.none {
+    color: var(--blue);
+}
+
+.glazewm-binding-mode .icon.resize {
+    color: var(--yellow);
+}
+
+.glazewm-binding-mode .icon.pause {
+    color: var(--red);
+}
+
+.glazewm-tiling-direction {
+    background-color: transparent;
+    padding: 0;
+    margin: 0;
+}
+
+.glazewm-tiling-direction .btn {
+    font-size: 18px;
+    width: 14px;
+    padding: 0 4px 0 4px;
+    color: #CDD6F4;
+    border: none;
+}
+
+.glazewm-tiling-direction .btn:hover {
+    background-color: #727272;
+}
+/* === Modern Compact Memory Widget === */
+.memory-widget .label {
+    font-size: 10px;
+    color: #cdd6f4;
+    opacity: 0.9;
+    transition: color 0.2s ease;
+}
+
+/* 切换到 label_alt（详细模式） */
+.memory-widget .label.alt {
+    font-size: 10px;
+    color: #b8c2cc;
+    letter-spacing: 0.3px;
+}
+
+/* 状态颜色 — 动态表现内存压力 */
+.memory-widget .label.status-low {
+    color: #a6e3a1; /* 绿色 */
+}
+.memory-widget .label.status-medium {
+    color: #f9e2af; /* 黄色 */
+}
+.memory-widget .label.status-high {
+    color: #f38ba8; /* 红色 */
+}
+.memory-widget .label.status-critical {
+    color: #ff5555; /* 深红警告 */
+    font-weight: 700;
+}
+
+
+/* === CPU Widget — Compact Two-Line Style === */
+
+.cpu-widget .widget-container .label {
+    font-size: 10px;
+    color: #c2daf7;
+}
+
+/* 状态颜色 — 根据使用率不同显示不同颜色 */
+.cpu-widget .label.status-low {
+    color: #a6e3a1; /* 绿色 */
+}
+.cpu-widget .label.status-medium {
+    color: #f9e2af; /* 黄色 */
+}
+.cpu-widget .label.status-high {
+    color: #f38ba8; /* 红色 */
+}
+.cpu-widget .label.status-critical {
+    color: #ff6b6b; /* 深红警告 */
+    font-weight: 700;
+}
+
+/* traffic */
+.traffic-widget .label {
+    font-size: 10px;
+    color: #cdd6f4;
+}
+
+/* traffic-menu */
+.traffic-menu {
+    background-color: rgba(24, 25, 27, 0.85);
+    min-width: 280px;
+}
+.traffic-menu .header {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    background-color: rgba(24, 25, 27, 0.8);
+}
+.traffic-menu .header .title {
+    padding: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    font-family: 'Segoe UI';
+    color: #ffffff
+}
+.traffic-menu .header .reset-button {
+    font-size: 11px;
+    padding: 4px 8px;
+    margin-right: 8px;
+    font-family: 'Segoe UI';
+    border-radius: 4px;
+    font-weight: 600;
+    background-color: transparent;
+    border: none;
+}
+.traffic-menu .reset-button:hover {
+    color: #ffffff;
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+.traffic-menu .reset-button:pressed {
+    color: #ffffff;
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+/* speed column styles */
+.traffic-menu .download-speed,
+.traffic-menu .upload-speed {
+    background-color: transparent;
+    padding: 4px 10px;
+    margin-right: 12px;
+    margin-left: 12px;
+    margin-top: 16px;
+    margin-bottom: 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+.traffic-menu .download-speed {
+    margin-left: 12px;
+    margin-right: 12px;
+}
+.traffic-menu .speed-separator {
+    max-width: 1px;
+    background-color: rgba(255, 255, 255, 0.2);
+    margin: 32px 0 16px 0;
+}
+.traffic-menu .upload-speed-value,
+.traffic-menu .download-speed-value {
+    font-size: 24px;
+    font-weight: 900;
+    font-family: 'Segoe UI';
+    color: #bcc2c5;
+}
+.traffic-menu .upload-speed-unit,
+.traffic-menu .download-speed-unit {
+    font-size: 13px;
+    font-family: 'Segoe UI';
+    font-weight: 600;
+    padding-top: 4px;
+}
+.traffic-menu .upload-speed-placeholder,
+.traffic-menu .download-speed-placeholder {
+    color: #747474;
+    font-size: 11px;
+    font-family: 'Segoe UI';
+    padding: 0 0 4px 0;
+}
+
+/* Section and data styles */
+.traffic-menu .section-title {
+    font-size: 12px;
+    font-weight: 600;
+    color: #7c8192;
+    margin-bottom: 4px;
+    font-family: 'Segoe UI';
+}
+.traffic-menu .session-section,
+.traffic-menu .today-section,
+.traffic-menu .alltime-section {
+    margin: 8px 8px 0 8px;
+    padding: 0 10px 10px 10px;
+    background-color: transparent;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+.traffic-menu .data-text {
+    font-size: 13px;
+    color: #afb5cc;
+    padding: 2px 0;
+    font-family: 'Segoe UI';
+
+}
+.traffic-menu .data-value {
+    font-weight: 600;
+    font-size: 13px;
+    font-family: 'Segoe UI';
+    padding: 2px 0;
+}
+
+/* Interface and Internet info styles */
+.traffic-menu .interface-info,
+.traffic-menu .internet-info {
+    font-size: 12px;
+    color: #6f7486;
+    padding: 8px 0;
+    font-family: 'Segoe UI';
+}
+.traffic-menu .internet-info {
+    background-color: rgba(68, 68, 68, 0.1);
+}
+.traffic-menu .internet-info.connected {
+    background-color: rgba(166, 227, 161, 0.096);
+    color: #a6e3a1;
+}
+.traffic-menu .internet-info.disconnected {
+    background-color: rgba(243, 139, 168, 0.1);
+    color: #f38ba8;
+}

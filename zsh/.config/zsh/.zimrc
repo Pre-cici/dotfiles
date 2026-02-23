@@ -22,7 +22,10 @@ zmodule completion
 # Modules that must be initialized last
 
 # Fish-like syntax highlighting for Zsh, must be sourced after completion.
-zmodule zsh-users/zsh-syntax-highlighting
+zmodule zdharma-continuum/fast-syntax-highlighting
+
+# Directory listings for zsh with git features
+zmodule supercrabtree/k
 
 # Fish-like history search for Zsh, must be sourced after
 # zsh-users/zsh-syntax-highlighting. Bind keyboard shortcuts in your ~/.zshrc:
@@ -32,3 +35,4 @@ zmodule zsh-users/zsh-history-substring-search
 # Fish-like autosuggestions for Zsh. Add the following to your ~/.zshrc to boost
 # performance: ZSH_AUTOSUGGEST_MANUAL_REBIND=1
 zmodule zsh-users/zsh-autosuggestions
+

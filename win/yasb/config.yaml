@@ -1,0 +1,271 @@
+watch_stylesheet: true
+watch_config: true
+debug: false
+komorebi:
+  start_command: "glazewm.exe start"
+  stop_command: "glazewm.exe command wm-exit"
+  reload_command: "glazewm.exe command wm-exit && glazewm.exe start"
+bars:
+  status-bar:
+    enabled: true
+    screens: ['*'] 
+    class_name: "yasb-bar"
+    alignment:
+      position: "top"
+      center: false
+    blur_effect:
+      enabled: true 
+      acrylic: true 
+      dark_mode: true
+      round_corners: true
+      border_color: None
+    window_flags:
+      always_on_top: false
+      windows_app_bar: true
+    dimensions:
+      width: "100%"
+      height: 36
+    padding:
+      top: 2
+      left: 2
+      bottom: 2
+      right: 2
+    widgets:
+      left:
+        [
+          "active_window",
+          "cpu",
+          "memory",
+          "traffic",
+        ] 
+      center: [
+         "clock",
+         "glazewm_tiling_direction",
+         "glazewm_workspaces",
+        ]
+      right:
+        [
+          "media",
+          "taskbar",
+          "systray",
+          "apps",
+          "power_menu"
+        ]
+widgets:
+  glazewm_tiling_direction:
+    type: "glazewm.tiling_direction.GlazewmTilingDirectionWidget"
+    options:
+      horizontal_label: "\udb81\udce1"
+      vertical_label: "\udb81\udce2"
+
+
+  glazewm_workspaces:
+    type: "glazewm.workspaces.GlazewmWorkspacesWidget"
+    options:
+      offline_label: "GlazeWM Offline"
+      hide_empty_workspaces: true
+      hide_if_offline: false
+      enable_scroll_switching: true
+      # active_populated_label: "{name} \udb81\udc3e"
+      # active_empty_label: "{name} \udb81\udc3e"
+      # populated_label: "{name} \udb81\udc3d"
+      animation: false
+
+  # TRAFFIC # TRAFFIC #
+  traffic:
+    type: "yasb.traffic.TrafficWidget"
+    options:
+      label: " \uf409 {download_speed}\n\uf40a {upload_speed}"
+      update_interval: 1000
+      hide_decimal: true
+      speed_unit: "bits"
+      max_label_length_align: "left"
+      menu:
+        blur: true
+        round_corners: true
+        round_corners_type: "normal"
+        border_color: "system"
+        alignment: "left"
+        direction: "down"
+        offset_top: 6
+        offset_left: 0
+      callbacks:
+        on_left: "toggle_menu"
+        on_right: "toggle_label"
+      
+  cpu:
+    type: "yasb.cpu.CpuWidget"
+    options:
+      label: "\uf4bc \n {info[percent][total]}%"
+      update_interval: 2000
+      cpu_thresholds:
+        low: 25
+        medium: 50
+        high: 90
+      callbacks:
+        on_right: "exec cmd /c Taskmgr"
+  memory:
+    type: "yasb.memory.MemoryWidget"
+    options:
+      label: "\uefc5 \n {virtual_mem_percent}%"
+      update_interval: 3000
+      class_name: "memory-widget"
+      memory_thresholds:
+        low: 30
+        medium: 60
+        high: 85
+ 
+
+  systray:
+    type: "yasb.systray.SystrayWidget"
+    options:
+      class_name: "systray"
+      label_collapsed: "\uf106"
+      label_expanded: "\uf105"
+      label_position: "left"
+      icon_size: 16
+      pin_click_modifier: "alt"
+      show_unpinned: false
+      show_unpinned_button: true
+      show_battery: false
+      show_volume: false
+      show_network: false
+      
+
+  media:
+    type: "yasb.media.MediaWidget"
+    options:
+      label: "{title} - {artist}"
+      label_alt: "{title}"
+      hide_empty: false
+      callbacks:
+        on_left: "toggle_media_menu"
+        on_middle: "toggle_label"
+        on_right: "toggle_play_pause"
+      max_field_size:
+        label: 15
+        label_alt: 15
+      show_thumbnail: true
+      controls_hide: True
+      thumbnail_alpha: 100
+      thumbnail_edge_fade: True
+      icons:
+        prev_track: "\ue892"
+        next_track: "\ue893"
+        play: "\ue768"
+        pause: "\ue769"
+      # MEDIA MENU # MEDIA MENU #
+      media_menu:
+        blur: True
+        round_corners: true
+        round_corners_type: "normal"
+        border_color: "system"
+        alignment: "right"
+        direction: "down"
+        offset_top: 6
+        offset_left: 0
+        thumbnail_size: 120
+        max_title_size: 60
+        max_artist_size: 20
+        show_source: true
+      media_menu_icons:
+        play: "\udb81\udc0a"
+        pause: "\udb80\udfe4"
+        prev_track: "\ueb6f"
+        next_track: "\ueb70"
+      scrolling_label:
+        enabled: True
+        update_interval_ms: 33
+        style: "left"
+        separator: "   "
+
+  active_window:
+    type: "yasb.active_window.ActiveWindowWidget"
+    options:
+      label: "{win[title]}"
+      label_alt: "[class_name='{win[class_name]}' exe='{win[process][name]}' hwnd={win[hwnd]}]"
+      label_no_window: ""
+      label_icon: true
+      label_icon_size: 16
+      max_length: 20
+      max_length_ellipsis: ""
+      monitor_exclusive: true
+  clock:
+    type: "yasb.clock.ClockWidget"
+    options:
+      label: "{%a %d, %b %H:%M}"
+      label_alt: "{%A %d %B %Y, %H:%M}"
+      #locale: 'en_EN' # Langugae for date, you can set your own, example fr_FR
+      timezones: [] #Looking up time zone info from registry
+      #timezones: ["America/Montreal"]
+  volume:
+    type: "yasb.volume.VolumeWidget"
+    options:
+      label: "<span>{icon}</span> {level}"
+      label_alt: "{volume}"
+      volume_icons:
+        - "\ueee8"  # Icon for muted
+        - "\uf026"  # Icon for 0-10% volume
+        - "\uf027"  # Icon for 11-30% volume
+        - "\uf027"  # Icon for 31-60% volume
+        - "\uf028"  # Icon for 61-100% volume
+      callbacks:
+        on_right: "exec cmd.exe /c start ms-settings:sound"
+
+  power_menu:
+    type: "yasb.power_menu.PowerMenuWidget"
+    options:
+      label: "\uf011"
+      uptime: True
+      blur: False
+      blur_background: True
+      animation_duration: 300 # Milisecond 
+      button_row: 3 # Number of buttons in row, min 1 max 5
+      buttons:
+        lock: ["\uea75","Lock"]
+        signout: ["\udb80\udf43","Sign out"]
+        shutdown: ["\uf011","Shut Down"]
+        restart: ["\uead2","Restart"]
+        hibernate: ["\uf28e","Hibernate"]
+        cancel: ["\udb81\udf3a","Cancel"]
+
+  apps:
+    type: "yasb.applications.ApplicationsWidget"
+    options:
+      label: "{data}"
+      app_list:
+        - {icon: "\uf489", launch: "wt", name: "Windows Terminal"} # launch terminal
+        - {icon: "\uf0a2", launch: "notification_center"}
+        - {icon: "\ueb51", launch: "quick_settings"}
+        - {icon: "\uf422", launch: "search"}
+      container_padding: 
+        top: 0
+        left: 4
+        bottom: 0
+        right: 4
+
+  taskbar:
+    type: "yasb.taskbar.TaskbarWidget"
+    options:
+      icon_size: 16
+      tooltip: true
+      show_only_visible: false
+      strict_filtering: true
+      monitor_exclusive: false
+      animation:
+        enabled: true
+      preview:
+        enabled: true
+        width: 240
+        delay: 400
+        padding: 8
+        margin: 8
+      title_label:
+        enabled: false
+        show: "always"
+        min_length: 10
+        max_length: 30
+      ignore_apps:
+        processes: []
+        titles: []
+        classes: []

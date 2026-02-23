@@ -36,7 +36,6 @@ precmd_functions+=(_fix_cursor)
 
 KEYTIMEOUT=1
 
-
 # Zsh options
 export HISTFILE="$XDG_STATE_HOME/zsh/.zsh_history"
 # Ensure history directory exists
@@ -44,14 +43,15 @@ export HISTFILE="$XDG_STATE_HOME/zsh/.zsh_history"
 
 export HISTSIZE=5000
 export SAVEHIST=5000
+export HISTDUP=erase
 
-export LANG=en_US.UTF-8
-export LC_CTYPE=en_US.UTF-8
 
 setopt HIST_IGNORE_ALL_DUPS
 setopt HIST_SAVE_NO_DUPS
 setopt HIST_VERIFY
 setopt INC_APPEND_HISTORY
+
+
 bindkey -v
 export KEYTIMEOUT=1
 WORDCHARS=${WORDCHARS//[\/]}
@@ -166,12 +166,15 @@ fi
 source <(fzf --zsh)
 
 # Aliases
-
+alias ls="ls --color"
 alias ll="ls -lh"
 alias la="ls -A"
 alias lla="ls -lha"
+
 alias nk="nvim"
 alias nl='NVIM_APPNAME="nvim-lazy" nvim'
 alias nn='NVIM_APPNAME="nvim-normal" nvim'
-alias cd='z'
+alias nv='NVIM_APPNAME="nvim-nvchad" nvim'
+alias lc='nvim leetcode.nvim'
 
+alias cd='z'

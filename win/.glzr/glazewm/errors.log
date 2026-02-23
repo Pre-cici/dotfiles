@@ -1,0 +1,9 @@
+[2m2025-11-08T14:06:43.484778Z[0m [31mERROR[0m [2mglazewm[0m[2m:[0m Another instance of the application is already running.
+[2m2026-01-04T10:26:39.259665Z[0m [31mERROR[0m [2mglazewm[0m[2m:[0m Another instance of the application is already running.
+[2m2026-01-04T12:09:09.433904Z[0m [31mERROR[0m [2mglazewm[0m[2m:[0m Another instance of the application is already running.
+[2m2026-01-06T04:52:32.295308Z[0m [31mERROR[0m [2mglazewm[0m[2m:[0m Unable to read config file.
+
+Caused by:
+    stream did not contain valid UTF-8
+[2m2026-02-04T16:29:52.512068Z[0m [31mERROR[0m [2mglazewm[0m[2m:[0m Another instance of the application is already running.
+[2m2026-02-04T16:29:56.339050Z[0m [31mERROR[0m [2mglazewm[0m[2m:[0m Another instance of the application is already running.
