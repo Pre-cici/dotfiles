@@ -1,3 +1,4 @@
 .zcompdump*
-.zsh_session
-
+.zsh_sessions
+.localized
+.DS_Store

@@ -16,12 +16,14 @@ export VISUAL="nvim"
 
 export PATH="$HOME/.local/bin:$PATH"
 
-source "$HOME/.cargo/env"
-
-# nvm
-export NVM_DIR="$XDG_CONFIG_HOME/nvm"
-source "$NVM_DIR/nvm.sh"
-
-
-export LANG=en_US.UTF-8
-export LC_CTYPE=en_US.UTF-8
+if grep -qi "microsoft" /proc/version 2>/dev/null || [ -n "$WSL_DISTRO_NAME" ]; then
+    # For WSL (Windows Subsystem for Linux)
+    source "$HOME/.cargo/env"  # For Rust
+    export NVM_DIR="$XDG_CONFIG_HOME/nvm"
+    source "$NVM_DIR/nvm.sh"  # For nvm
+elif [[ "$(uname)" == "Darwin" ]]; then
+    # For macOS
+    # If you're using Homebrew, you generally don't need to manually source env files for Rust or nvm.
+    # But if needed, you can add custom paths here.
+    export PATH="$PATH:/opt/homebrew/bin"
+fi
