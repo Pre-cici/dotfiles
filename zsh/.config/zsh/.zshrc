@@ -1,5 +1,7 @@
 fastfetch
 
+export LANG=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.config/zsh/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
@@ -127,13 +129,13 @@ bindkey -M menuselect 'j' vi-down-line-or-history
 
 
 # Lazy load Conda
-export CONDA_BASE="$HOME/miniconda3"
+export CONDA_BASE="$XDG_DATA_HOME/miniconda3"
 
 _conda_lazy_load() {
   unfunction conda 2>/dev/null || unset -f conda 2>/dev/null
 
   if [ -f "$CONDA_BASE/etc/profile.d/conda.sh" ]; then
-    . "$CONDA_BASE/etc/profile.d/conda.sh"
+    . "$CONDA_BASE/etc/profile.d/conda.sh"  # commented out by conda initialize
   else
     export PATH="$CONDA_BASE/bin:$PATH"
   fi
@@ -155,6 +157,19 @@ function y() {
 	rm -f -- "$tmp"
 }
 
+# Proxy helpers
+proxy_on() {
+  export http_proxy="http://127.0.0.1:7890"
+  export https_proxy="http://127.0.0.1:7890"
+  export HTTP_PROXY="$http_proxy"
+  export HTTPS_PROXY="$https_proxy"
+  echo "Proxy enabled"
+}
+
+proxy_off() {
+  unset http_proxy https_proxy HTTP_PROXY HTTPS_PROXY
+  echo "Proxy disabled"
+}
 
 # zoxide
 eval "$(zoxide init zsh)"
@@ -164,6 +179,9 @@ if [[ ! "$PATH" == */home/hsppp/.config/fzf/bin* ]]; then
   PATH="${PATH:+${PATH}:}/home/hsppp/.config/fzf/bin"
 fi
 source <(fzf --zsh)
+
+# bun completions
+[ -s "/Users/hsp/.bun/_bun" ] && source "/Users/hsp/.bun/_bun"
 
 # Aliases
 alias ls="ls --color"
@@ -178,3 +196,20 @@ alias nv='NVIM_APPNAME="nvim-nvchad" nvim'
 alias lc='nvim leetcode.nvim'
 
 alias cd='z'
+
+# # >>> conda initialize >>>
+# # !! Contents within this block are managed by 'conda init' !!
+# __conda_setup="$('/Users/hsp/.local/share/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+# if [ $? -eq 0 ]; then
+#     eval "$__conda_setup"
+# else
+#     if [ -f "/Users/hsp/.local/share/miniconda3/etc/profile.d/conda.sh" ]; then
+#         . "/Users/hsp/.local/share/miniconda3/etc/profile.d/conda.sh"
+#     else
+#         export PATH="/Users/hsp/.local/share/miniconda3/bin:$PATH"
+#     fi
+# fi
+# unset __conda_setup
+# # <<< conda initialize <<<
+
+
