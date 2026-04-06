@@ -1,7 +1,5 @@
 fastfetch
 
-export LANG=en_US.UTF-8
-export LC_ALL=en_US.UTF-8
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.config/zsh/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
@@ -11,7 +9,6 @@ fi
 
 # Prompt (Powerlevel10k)
 [[ -f "${ZDOTDIR}/p10k.zsh" ]] && source "${ZDOTDIR}/p10k.zsh"
-
 
 # mouse
 function zle-keymap-select {
@@ -160,7 +157,7 @@ fi
 source <(fzf --zsh)
 
 # bun completions
-[ -s "/Users/hsp/.bun/_bun" ] && source "/Users/hsp/.bun/_bun"
+# [ -s "/Users/hsp/.bun/_bun" ] && source "/Users/hsp/.bun/_bun"
 
 # Aliases
 alias ls="ls --color"
@@ -175,3 +172,18 @@ alias nv='NVIM_APPNAME="nvim-nvchad" nvim'
 alias lc='nvim leetcode.nvim'
 
 alias cd='z'
+
+
+
+# >>> mamba initialize >>>
+# !! Contents within this block are managed by 'mamba shell init' !!
+export MAMBA_EXE='/opt/homebrew/bin/mamba';
+export MAMBA_ROOT_PREFIX='/Users/hsp/.local/share/mamba';
+__mamba_setup="$("$MAMBA_EXE" shell hook --shell zsh --root-prefix "$MAMBA_ROOT_PREFIX" 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__mamba_setup"
+else
+    alias mamba="$MAMBA_EXE"  # Fallback on help from mamba activate
+fi
+unset __mamba_setup
+# <<< mamba initialize <<<
