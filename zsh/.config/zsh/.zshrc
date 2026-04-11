@@ -1,139 +1,132 @@
+# fastfetch
 fastfetch
 
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.config/zsh/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+# Powerlevel10k instant prompt
+if [[ -r "${XDG_CACHE_HOME}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-# Prompt (Powerlevel10k)
+# Prompt
 [[ -f "${ZDOTDIR}/p10k.zsh" ]] && source "${ZDOTDIR}/p10k.zsh"
 
-# mouse
-function zle-keymap-select {
-	if [[ ${KEYMAP} == vicmd ]] || [[ $1 = 'block' ]]; then
-		echo -ne '\e[1 q'
-	elif [[ ${KEYMAP} == main ]] || [[ ${KEYMAP} == viins ]] || [[ ${KEYMAP} = '' ]] || [[ $1 = 'beam' ]]; then
-		echo -ne '\e[5 q'
-  fi
-}
-zle -N zle-keymap-select
-
-# Use beam shape cursor on startup.
-echo -ne '\e[5 q'
-
-# Use beam shape cursor for each new prompt.
-preexec() {
-	echo -ne '\e[5 q'
-}
-
-_fix_cursor() {
-	echo -ne '\e[5 q'
-}
-precmd_functions+=(_fix_cursor)
+# -----------------------------------------------------------------------------
+# Shell behavior
+# -----------------------------------------------------------------------------
 
 KEYTIMEOUT=1
+bindkey -v
+WORDCHARS=${WORDCHARS//[\/]}
 
-# Zsh options
-export HISTFILE="$XDG_STATE_HOME/zsh/.zsh_history"
-# Ensure history directory exists
-[[ -d ${HISTFILE:h} ]] || mkdir -p ${HISTFILE:h}
+# History
+export HISTFILE="$XDG_STATE_HOME/zsh/history"
+[[ -d ${HISTFILE:h} ]] || mkdir -p "${HISTFILE:h}"
 
 export HISTSIZE=5000
 export SAVEHIST=5000
-export HISTDUP=erase
-
 
 setopt HIST_IGNORE_ALL_DUPS
 setopt HIST_SAVE_NO_DUPS
 setopt HIST_VERIFY
 setopt INC_APPEND_HISTORY
 
-
-bindkey -v
-export KEYTIMEOUT=1
-WORDCHARS=${WORDCHARS//[\/]}
-
 autoload -Uz edit-command-line
 zle -N edit-command-line
 bindkey -M vicmd v edit-command-line
 
-# modules
+# -----------------------------------------------------------------------------
+# Cursor shape
+# -----------------------------------------------------------------------------
 
-## Compeltion
+function zle-keymap-select {
+  if [[ ${KEYMAP} == vicmd ]] || [[ $1 == 'block' ]]; then
+    echo -ne '\e[1 q'
+  elif [[ ${KEYMAP} == main ]] || [[ ${KEYMAP} == viins ]] || [[ -z ${KEYMAP} ]] || [[ $1 == 'beam' ]]; then
+    echo -ne '\e[5 q'
+  fi
+}
+zle -N zle-keymap-select
+
+echo -ne '\e[5 q'
+
+preexec() {
+  echo -ne '\e[5 q'
+}
+
+_fix_cursor() {
+  echo -ne '\e[5 q'
+}
+precmd_functions+=(_fix_cursor)
+
+# -----------------------------------------------------------------------------
+# Zim
+# -----------------------------------------------------------------------------
+
 zstyle ':zim:completion' dumpfile "${XDG_STATE_HOME}/zsh/.zcompdump"
 zstyle ':completion::complete:*' cache-path "${XDG_CACHE_HOME}/zsh/zcompcache"
-
-
 zstyle ':zim:*' case-sensitivity insensitive
-
-## Git
 zstyle ':zim:git' aliases-prefix 'g'
-
-## Input
 zstyle ':zim:input' double-dot-expand yes
-
-## Termtitle
 zstyle ':zim:termtitle' format '%1~'
 
-## zsh-autosuggestions
 ZSH_AUTOSUGGEST_MANUAL_REBIND=1
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=242'
 
-# zsh-syntax-highlighting
 ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets)
 typeset -A ZSH_HIGHLIGHT_STYLES
 ZSH_HIGHLIGHT_STYLES[comment]='fg=242'
 
-# Initialize Zim
 export ZIM_HOME="${XDG_DATA_HOME}/zim"
 
-# Download zimfw plugin manager if missing
-if [[ ! -e ${ZIM_HOME}/zimfw.zsh ]]; then
+if [[ ! -e "${ZIM_HOME}/zimfw.zsh" ]]; then
   if (( ${+commands[curl]} )); then
-    curl -fsSL --create-dirs -o ${ZIM_HOME}/zimfw.zsh \
+    curl -fsSL --create-dirs -o "${ZIM_HOME}/zimfw.zsh" \
       https://github.com/zimfw/zimfw/releases/latest/download/zimfw.zsh
   else
-    mkdir -p ${ZIM_HOME} && wget -nv -O ${ZIM_HOME}/zimfw.zsh \
+    mkdir -p "${ZIM_HOME}" && wget -nv -O "${ZIM_HOME}/zimfw.zsh" \
       https://github.com/zimfw/zimfw/releases/latest/download/zimfw.zsh
   fi
 fi
 
-# Install missing modules and update init.zsh if missing/outdated
-if [[ ! ${ZIM_HOME}/init.zsh -nt ${ZIM_CONFIG_FILE:-${ZDOTDIR:-${HOME}}/.zimrc} ]]; then
-  source ${ZIM_HOME}/zimfw.zsh init
+if [[ ! "${ZIM_HOME}/init.zsh" -nt "${ZIM_CONFIG_FILE:-${ZDOTDIR}/.zimrc}" ]]; then
+  source "${ZIM_HOME}/zimfw.zsh" init
 fi
 
-# Initialize modules
-source ${ZIM_HOME}/init.zsh
+source "${ZIM_HOME}/init.zsh"
 
+# -----------------------------------------------------------------------------
+# Post-init config
+# -----------------------------------------------------------------------------
 
-# Post-init Configuration
-## zsh-history-substring-search
 zmodload -F zsh/terminfo +p:terminfo
-for key ('^[[A' '^P' ${terminfo[kcuu1]}) bindkey ${key} history-substring-search-up
-for key ('^[[B' '^N' ${terminfo[kcud1]}) bindkey ${key} history-substring-search-down
-for key ('k') bindkey -M vicmd ${key} history-substring-search-up
-for key ('j') bindkey -M vicmd ${key} history-substring-search-down
+for key in '^[[A' '^P' "${terminfo[kcuu1]}"; do
+  bindkey "${key}" history-substring-search-up
+done
+for key in '^[[B' '^N' "${terminfo[kcud1]}"; do
+  bindkey "${key}" history-substring-search-down
+done
+bindkey -M vicmd 'k' history-substring-search-up
+bindkey -M vicmd 'j' history-substring-search-down
 unset key
 
 zmodload zsh/complist
 bindkey -M menuselect 'h' vi-backward-char
+bindkey -M menuselect 'j' vi-down-line-or-history
 bindkey -M menuselect 'k' vi-up-line-or-history
 bindkey -M menuselect 'l' vi-forward-char
-bindkey -M menuselect 'j' vi-down-line-or-history
 
-# yazi launcher (file manager)
+# -----------------------------------------------------------------------------
+# Helpers
+# -----------------------------------------------------------------------------
+
 function y() {
-	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
-	yazi "$@" --cwd-file="$tmp"
-	IFS= read -r -d '' cwd < "$tmp"
-	[ -n "$cwd" ] && [ "$cwd" != "$PWD" ] && builtin cd -- "$cwd"
-	rm -f -- "$tmp"
+  local tmp cwd
+  tmp="$(mktemp -t "yazi-cwd.XXXXXX")" || return 1
+  yazi "$@" --cwd-file="$tmp"
+  IFS= read -r -d '' cwd < "$tmp"
+  [[ -n "$cwd" && "$cwd" != "$PWD" ]] && builtin cd -- "$cwd"
+  rm -f -- "$tmp"
 }
 
-# Proxy helpers
 proxy_on() {
   export http_proxy="http://127.0.0.1:7890"
   export https_proxy="http://127.0.0.1:7890"
@@ -147,43 +140,93 @@ proxy_off() {
   echo "Proxy disabled"
 }
 
-# zoxide
+# -----------------------------------------------------------------------------
+# Tools
+# -----------------------------------------------------------------------------
+
 eval "$(zoxide init zsh)"
 
 # fzf
-if [[ ! "$PATH" == */home/hsppp/.config/fzf/bin* ]]; then
-  PATH="${PATH:+${PATH}:}/home/hsppp/.config/fzf/bin"
-fi
+export FZF_DEFAULT_OPTS_FILE="$XDG_CONFIG_HOME/fzf/config"
+export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
+export FZF_ALT_C_COMMAND='fd --type d --hidden --follow --exclude .git'
+
+export FZF_CTRL_T_OPTS="
+  --walker-skip .git,node_modules,target,dist,build,.venv,venv,__pycache__
+  --preview 'if [ -d {} ]; then tree -C {} | head -200; else bat -n --color=always {}; fi'
+  --bind 'ctrl-/:change-preview-window(right,60%|down,50%|hidden|)'
+"
+
+export FZF_CTRL_R_OPTS="
+  --bind 'ctrl-y:execute-silent(echo -n {2..} | pbcopy)+abort'
+  --header 'CTRL-Y 复制命令'
+"
+
+export FZF_ALT_C_OPTS="
+  --walker-skip .git,node_modules,target,dist,build,.venv,venv,__pycache__
+  --preview 'tree -C {} | head -200'
+"
+
+_fzf_compgen_path() {
+  fd --hidden --follow --exclude ".git" . "$1"
+}
+
+_fzf_compgen_dir() {
+  fd --type d --hidden --follow --exclude ".git" . "$1"
+}
+
+fcd() {
+  local dir
+  dir=$(fd --type d --hidden --follow --exclude .git . | fzf) || return
+  cd "$dir"
+}
+
+fe() {
+  local file
+  file=$(fd --type f --hidden --follow --exclude .git . | fzf --preview 'bat -n --color=always {}') || return
+  nvim "$file"
+}
+
 source <(fzf --zsh)
 
-# bun completions
-# [ -s "/Users/hsp/.bun/_bun" ] && source "/Users/hsp/.bun/_bun"
+# WSL-only tools
+if grep -qi "microsoft" /proc/version 2>/dev/null || [[ -n "$WSL_DISTRO_NAME" ]]; then
+  [[ -f "$HOME/.cargo/env" ]] && source "$HOME/.cargo/env"
 
+  export NVM_DIR="${XDG_CONFIG_HOME}/nvm"
+  [[ -s "${NVM_DIR}/nvm.sh" ]] && source "${NVM_DIR}/nvm.sh"
+fi
+
+# -----------------------------------------------------------------------------
 # Aliases
-alias ls="ls --color"
-alias ll="ls -lh"
-alias la="ls -A"
-alias lla="ls -lha"
+# -----------------------------------------------------------------------------
 
-alias nk="nvim"
+alias ls='ls -G'
+alias ll='ls -lh'
+alias la='ls -A'
+alias lla='ls -lha'
+
+alias nk='nvim'
 alias nl='NVIM_APPNAME="nvim-lazy" nvim'
 alias nn='NVIM_APPNAME="nvim-normal" nvim'
 alias nv='NVIM_APPNAME="nvim-nvchad" nvim'
-alias lc='nvim leetcode.nvim'
+alias leet='nvim +"Leet"'
 
 alias cd='z'
 
-
+# -----------------------------------------------------------------------------
+# Mamba
+# -----------------------------------------------------------------------------
 
 # >>> mamba initialize >>>
 # !! Contents within this block are managed by 'mamba shell init' !!
-export MAMBA_EXE='/opt/homebrew/bin/mamba';
-export MAMBA_ROOT_PREFIX='/Users/hsp/.local/share/mamba';
+export MAMBA_EXE='/opt/homebrew/bin/mamba'
+export MAMBA_ROOT_PREFIX='/Users/hsp/.local/share/mamba'
 __mamba_setup="$("$MAMBA_EXE" shell hook --shell zsh --root-prefix "$MAMBA_ROOT_PREFIX" 2> /dev/null)"
 if [ $? -eq 0 ]; then
-    eval "$__mamba_setup"
+  eval "$__mamba_setup"
 else
-    alias mamba="$MAMBA_EXE"  # Fallback on help from mamba activate
+  alias mamba="$MAMBA_EXE"
 fi
 unset __mamba_setup
 # <<< mamba initialize <<<
