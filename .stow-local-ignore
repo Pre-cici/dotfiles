@@ -1,1 +1,47 @@
 Makefile
+
+# Git
+\.git
+\.gitignore
+\.gitmodules
+
+# Stow
+\.stow-local-ignore
+\.stow-global-ignore
+\.stowrc
+
+# Docs
+^/README.*
+^/LICENSE.*
+^/COPYING
+
+# macOS
+\.DS_Store
+
+# Logs / temp
+.*\.log
+.*\.tmp
+.*\.bak
+.*~
+\#.*\#
+
+# Scripts not meant to be linked
+^/install\.sh
+^/stow-all\.sh
+
+# Homebrew
+^/homebrew/Brewfile\.lock\.json
+
+# Node
+node_modules
+
+# Python
+__pycache__
+.*\.pyc
+
+# Rime generated files
+^/rime/Library/Rime/build
+^/rime/Library/Rime/.*\.userdb
+^/rime/Library/Rime/installation\.yaml
+^/rime/Library/Rime/user\.yaml
+^/rime/Library/Rime/sync
