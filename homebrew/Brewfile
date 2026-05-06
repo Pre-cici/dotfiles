@@ -1,0 +1,73 @@
+tap "anomalyco/tap"
+tap "jurplel/tap"
+tap "oven-sh/bun"
+# Clone of cat(1) with syntax highlighting and Git integration
+brew "bat"
+# Resource monitor. C++ version and continuation of bashtop and bpytop
+brew "btop"
+# XML-based font configuration API for X Windows
+brew "fontconfig"
+# Apjanke's fork of the classic cowsay project
+brew "cowsay"
+# Like neofetch, but much faster because written mostly in C
+brew "fastfetch"
+# Simple, fast and user-friendly alternative to find
+brew "fd"
+# Command-line fuzzy finder written in Go
+brew "fzf"
+# Interpreter for PostScript and PDF
+brew "ghostscript"
+# Tools and libraries to manipulate images in select formats
+brew "imagemagick"
+# Jupyter notebooks as Markdown documents, Julia, Python or R scripts
+brew "jupytext"
+# Simple terminal UI for git commands
+brew "lazygit"
+# Fast Cross-Platform Package Manager
+brew "micromamba"
+# Ambitious Vim-fork focused on extensibility and agility
+brew "neovim"
+# Open-source, cross-platform JavaScript runtime environment
+brew "node"
+# Paste PNG into files
+brew "pngpaste"
+# PDF rendering library (based on the xpdf-3.0 code base)
+brew "poppler"
+# Perl-compatible regular expression optimizer
+brew "regex-opt"
+# Search tool like grep and The Silver Searcher
+brew "ripgrep"
+# Safe, concurrent, practical language
+brew "rust"
+# Organize software neatly under a single directory tree (e.g. /usr/local)
+brew "stow"
+# Modernized, complete, self-contained TeX/LaTeX engine
+brew "tectonic"
+# Terminal multiplexer
+brew "tmux"
+# Display directories as trees (with optional color/HTML output)
+brew "tree"
+# Parser generator tool
+brew "tree-sitter-cli"
+# Internet file retriever
+brew "wget"
+# Blazing fast terminal file manager written in Rust, based on async I/O
+brew "yazi"
+# Shell extension to navigate your filesystem faster
+brew "zoxide"
+# The AI coding agent built for the terminal.
+brew "anomalyco/tap/opencode"
+# Incredibly fast JavaScript runtime, bundler, transpiler and package manager - all in one.
+brew "oven-sh/bun/bun"
+# Native instant workspace switching
+cask "jurplel/tap/instant-space-switcher"
+# Keyboard customiser
+cask "karabiner-elements"
+# Clipboard manager
+cask "maccy"
+# Smooths scrolling and set mouse scroll directions independently
+cask "mos@beta"
+# Finds large, unwanted files and deletes them
+cask "omnidisksweeper"
+# Utility to uninstall apps and remove leftover files from old/uninstalled apps
+cask "pearcleaner"
