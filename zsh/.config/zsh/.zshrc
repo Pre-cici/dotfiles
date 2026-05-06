@@ -151,17 +151,20 @@ export FZF_DEFAULT_OPTS_FILE="$XDG_CONFIG_HOME/fzf/config"
 export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
 export FZF_ALT_C_COMMAND='fd --type d --hidden --follow --exclude .git'
 
+# fzf file
 export FZF_CTRL_T_OPTS="
   --walker-skip .git,node_modules,target,dist,build,.venv,venv,__pycache__
   --preview 'if [ -d {} ]; then tree -C {} | head -200; else bat -n --color=always {}; fi'
   --bind 'ctrl-/:change-preview-window(right,60%|down,50%|hidden|)'
 "
 
+# fzf command
 export FZF_CTRL_R_OPTS="
   --bind 'ctrl-y:execute-silent(echo -n {2..} | pbcopy)+abort'
   --header 'CTRL-Y 复制命令'
 "
 
+# fzf dir
 export FZF_ALT_C_OPTS="
   --walker-skip .git,node_modules,target,dist,build,.venv,venv,__pycache__
   --preview 'tree -C {} | head -200'
