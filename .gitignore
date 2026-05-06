@@ -1,4 +1,44 @@
+# macOS
+.DS_Store
+.localized
+
+# logs
+*.log
+
+# secrets
+.env
+.env.*
+*.pem
+*.key
+*.crt
+
+# local machine configs
+*.local
+.zshrc.local
+.gitconfig.local
+
+# zsh
 .zcompdump*
 .zsh_sessions
-.localized
-.DS_Store
+
+# vim/nvim
+.swap/
+*.swp
+
+# Rime generated files
+rime/Library/Rime/build/
+rime/Library/Rime/*.userdb/
+rime/Library/Rime/installation.yaml
+rime/Library/Rime/user.yaml
+rime/Library/Rime/sync/
+
+# Node
+node_modules/
+
+# Python
+__pycache__/
+*.pyc
+
+# temporary
+tmp/
+.cache/
