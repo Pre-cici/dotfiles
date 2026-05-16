@@ -143,7 +143,6 @@ proxy_off() {
 # -----------------------------------------------------------------------------
 # Tools
 # -----------------------------------------------------------------------------
-
 # zoxide
 eval "$(zoxide init zsh)"
 
@@ -218,19 +217,8 @@ alias leet='nvim +"Leet"'
 
 alias cd='z'
 
-# -----------------------------------------------------------------------------
-# Mamba
-# -----------------------------------------------------------------------------
-
-# >>> mamba initialize >>>
-# !! Contents within this block are managed by 'mamba shell init' !!
-export MAMBA_EXE='/opt/homebrew/bin/mamba'
-export MAMBA_ROOT_PREFIX='/Users/hsp/.local/share/mamba'
-__mamba_setup="$("$MAMBA_EXE" shell hook --shell zsh --root-prefix "$MAMBA_ROOT_PREFIX" 2> /dev/null)"
-if [ $? -eq 0 ]; then
-  eval "$__mamba_setup"
-else
-  alias mamba="$MAMBA_EXE"
-fi
-unset __mamba_setup
-# <<< mamba initialize <<<
+# Obsidian CLI alias
+alias ob='notesmd-cli'
+alias obd='notesmd-cli daily'
+alias obst='notesmd-cli search'
+obnote() { notesmd-cli create "$1" --content "$2" --open; }
