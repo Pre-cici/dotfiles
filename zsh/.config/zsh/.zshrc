@@ -200,6 +200,32 @@ if grep -qi "microsoft" /proc/version 2>/dev/null || [[ -n "$WSL_DISTRO_NAME" ]]
   [[ -s "${NVM_DIR}/nvm.sh" ]] && source "${NVM_DIR}/nvm.sh"
 fi
 
+# ---- conda lazy loading ----
+export CONDA_HOME="$HOME/miniconda3"
+
+conda() {
+  unset -f conda
+
+  if [ -f "$CONDA_HOME/bin/conda" ]; then
+    __conda_setup="$("$CONDA_HOME/bin/conda" "shell.zsh" "hook" 2>/dev/null)"
+    if [ $? -eq 0 ]; then
+      eval "$__conda_setup"
+    else
+      export PATH="$CONDA_HOME/bin:$PATH"
+    fi
+    unset __conda_setup
+  else
+    echo "conda not found at $CONDA_HOME/bin/conda"
+    return 1
+  fi
+
+  conda "$@"
+}
+
+activate() {
+  conda activate "$@"
+}
+
 # -----------------------------------------------------------------------------
 # Aliases
 # -----------------------------------------------------------------------------
