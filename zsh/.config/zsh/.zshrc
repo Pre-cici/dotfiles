@@ -146,6 +146,10 @@ proxy_off() {
 # zoxide
 eval "$(zoxide init zsh)"
 
+# direnv
+export DIRENV_LOG_FORMAT=
+eval "$(direnv hook zsh)"
+
 # fzf
 export FZF_DEFAULT_OPTS_FILE="$XDG_CONFIG_HOME/fzf/config"
 export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
@@ -234,6 +238,9 @@ alias ls='ls -G'
 alias ll='ls -lh'
 alias la='ls -A'
 alias lla='ls -lha'
+
+export GREP_COLORS='ms=01;95:mc=01;95:sl=:cx=:fn=35:ln=32:bn=32:se=36'
+alias grep='grep --color=auto'
 
 alias nk='nvim'
 alias nl='NVIM_APPNAME="nvim-lazy" nvim'
