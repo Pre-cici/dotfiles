@@ -1,0 +1,30 @@
+{
+    "title": "Caps Lock as Escape or Control",
+    "rules": [
+        {
+            "description": "Change Caps Lock to Escape when pressed, Control when held",
+            "manipulators": [
+                {
+                    "from": {
+                        "key_code": "caps_lock"
+                    },
+                    "to": [
+                        {
+                            "key_code": "escape"
+                        }
+                    ],
+                    "to_if_alone": [
+                        {
+                            "key_code": "escape"
+                        }
+                    ],
+                    "to_if_held_down": [
+                        {
+                            "key_code": "left_control"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
