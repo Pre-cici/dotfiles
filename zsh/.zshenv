@@ -38,7 +38,6 @@ export CARGO_HOME="${CARGO_HOME:-$HOME/.cargo}"
 export RUSTUP_HOME="${RUSTUP_HOME:-$HOME/.rustup}"
 
 # PATH
-typeset -U path PATH
 
 [[ -d "$HOME/.local/bin" ]] && path=("$HOME/.local/bin" $path)
 [[ -d "$CARGO_HOME/bin" ]] && path=("$CARGO_HOME/bin" $path)
