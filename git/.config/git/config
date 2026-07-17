@@ -1,0 +1,6 @@
+[user]
+	name = postpone
+	email = sipenghh@163.com
+[core]
+	editor = nvim
+	excludesfile = ~/.config/git/.gitignore_global

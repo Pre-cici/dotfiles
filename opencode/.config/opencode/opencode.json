@@ -1,6 +1,23 @@
 {
   "$schema": "https://opencode.ai/config.json",
+  "skills": {
+    "paths": [
+      "/Users/hsp/.config/opencode/academic-research-skills/skills"
+    ]
+  },
   "plugin": [
-    "@tarquinen/opencode-dcp@latest"
-  ]
+    "@tarquinen/opencode-dcp@3.1.14"
+  ],
+  "mcp": {
+    "zotero": {
+      "type": "local",
+      "command": [
+        "/Users/hsp/.local/bin/zotero-mcp"
+      ],
+      "enabled": false,
+      "environment": {
+        "ZOTERO_LOCAL": "true"
+      }
+    }
+  }
 }
