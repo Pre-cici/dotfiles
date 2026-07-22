@@ -57,6 +57,6 @@ tab_title_template          "{title}{sup.index}"
 include mappings.conf
 
 # BEGIN_KITTY_THEME
-# Rosé Pine Moon
+# Catppuccin-Macchiato
 include current-theme.conf
 # END_KITTY_THEME
