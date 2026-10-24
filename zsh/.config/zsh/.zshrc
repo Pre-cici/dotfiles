@@ -1,5 +1,5 @@
-# fastfetch
-fastfetch
+# Fastfetch
+(( $+commands[fastfetch] )) && fastfetch
 
 # Powerlevel10k instant prompt
 if [[ -r "${XDG_CACHE_HOME}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
@@ -21,13 +21,9 @@ WORDCHARS=${WORDCHARS//[\/]}
 export HISTFILE="$XDG_STATE_HOME/zsh/history"
 [[ -d ${HISTFILE:h} ]] || mkdir -p "${HISTFILE:h}"
 
-export HISTSIZE=5000
-export SAVEHIST=5000
-
 setopt HIST_IGNORE_ALL_DUPS
 setopt HIST_SAVE_NO_DUPS
 setopt HIST_VERIFY
-setopt INC_APPEND_HISTORY
 
 autoload -Uz edit-command-line
 zle -N edit-command-line
@@ -37,25 +33,24 @@ bindkey -M vicmd v edit-command-line
 # Cursor shape
 # -----------------------------------------------------------------------------
 
-function zle-keymap-select {
-  if [[ ${KEYMAP} == vicmd ]] || [[ $1 == 'block' ]]; then
-    echo -ne '\e[1 q'
-  elif [[ ${KEYMAP} == main ]] || [[ ${KEYMAP} == viins ]] || [[ -z ${KEYMAP} ]] || [[ $1 == 'beam' ]]; then
-    echo -ne '\e[5 q'
-  fi
-}
-zle -N zle-keymap-select
+if [[ ${TERM:-dumb} != dumb ]]; then
+  function zle-keymap-select {
+    if [[ ${KEYMAP} == vicmd ]] || [[ $1 == 'block' ]]; then
+      print -n $'\e[1 q'
+    elif [[ ${KEYMAP} == main ]] || [[ ${KEYMAP} == viins ]] || [[ -z ${KEYMAP} ]] || [[ $1 == 'beam' ]]; then
+      print -n $'\e[5 q'
+    fi
+  }
+  zle -N zle-keymap-select
 
-echo -ne '\e[5 q'
-
-preexec() {
-  echo -ne '\e[5 q'
-}
-
-_fix_cursor() {
-  echo -ne '\e[5 q'
-}
-precmd_functions+=(_fix_cursor)
+  _fix_cursor() {
+    print -n $'\e[5 q'
+  }
+  autoload -Uz add-zsh-hook
+  add-zsh-hook preexec _fix_cursor
+  add-zsh-hook precmd _fix_cursor
+  _fix_cursor
+fi
 
 # -----------------------------------------------------------------------------
 # Zim
@@ -71,48 +66,78 @@ zstyle ':zim:termtitle' format '%1~'
 ZSH_AUTOSUGGEST_MANUAL_REBIND=1
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=242'
 
-ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets)
-typeset -A ZSH_HIGHLIGHT_STYLES
-ZSH_HIGHLIGHT_STYLES[comment]='fg=242'
-
 export ZIM_HOME="${XDG_DATA_HOME}/zim"
 
-if [[ ! -e "${ZIM_HOME}/zimfw.zsh" ]]; then
+if [[ ! -r "${ZIM_HOME}/zimfw.zsh" ]]; then
+  _zimfw_version='1.20.0'
+  _zimfw_tmp="${ZIM_HOME}/zimfw.zsh.tmp.$$"
+  _zimfw_downloaded=0
+  mkdir -p "${ZIM_HOME}"
+
   if (( ${+commands[curl]} )); then
-    curl -fsSL --create-dirs -o "${ZIM_HOME}/zimfw.zsh" \
-      https://github.com/zimfw/zimfw/releases/latest/download/zimfw.zsh
+    command curl -fsSL -o "${_zimfw_tmp}" \
+      "https://github.com/zimfw/zimfw/releases/download/v${_zimfw_version}/zimfw.zsh" && _zimfw_downloaded=1
+  elif (( ${+commands[wget]} )); then
+    command wget -q -O "${_zimfw_tmp}" \
+      "https://github.com/zimfw/zimfw/releases/download/v${_zimfw_version}/zimfw.zsh" && _zimfw_downloaded=1
   else
-    mkdir -p "${ZIM_HOME}" && wget -nv -O "${ZIM_HOME}/zimfw.zsh" \
-      https://github.com/zimfw/zimfw/releases/latest/download/zimfw.zsh
+    print -u2 'Zim bootstrap requires curl or wget.'
   fi
+
+  if (( _zimfw_downloaded )) && [[ -s "${_zimfw_tmp}" ]]; then
+    command mv -f "${_zimfw_tmp}" "${ZIM_HOME}/zimfw.zsh"
+  else
+    command rm -f "${_zimfw_tmp}"
+    print -u2 'Failed to download zimfw.'
+  fi
+
+  unset _zimfw_downloaded _zimfw_tmp _zimfw_version
 fi
 
-if [[ ! "${ZIM_HOME}/init.zsh" -nt "${ZIM_CONFIG_FILE:-${ZDOTDIR}/.zimrc}" ]]; then
+if [[ -r "${ZIM_HOME}/zimfw.zsh" && ! "${ZIM_HOME}/init.zsh" -nt "${ZIM_CONFIG_FILE:-${ZDOTDIR}/.zimrc}" ]]; then
   source "${ZIM_HOME}/zimfw.zsh" init
 fi
 
-source "${ZIM_HOME}/init.zsh"
+_zim_loaded=0
+if [[ -r "${ZIM_HOME}/init.zsh" ]]; then
+  source "${ZIM_HOME}/init.zsh" && _zim_loaded=1
+else
+  print -u2 "Zim init file not found: ${ZIM_HOME}/init.zsh"
+fi
+
+if (( _zim_loaded && ${+parameters[FAST_HIGHLIGHT_STYLES]} )); then
+  FAST_HIGHLIGHT_STYLES[comment]='fg=#908caa'
+fi
+
+# Zim's environment module sets larger defaults; keep the configured limits.
+HISTSIZE=5000
+SAVEHIST=5000
+setopt SHARE_HISTORY
+unsetopt INC_APPEND_HISTORY
 
 # -----------------------------------------------------------------------------
 # Post-init config
 # -----------------------------------------------------------------------------
 
-zmodload -F zsh/terminfo +p:terminfo
-for key in '^[[A' '^P' "${terminfo[kcuu1]}"; do
-  bindkey "${key}" history-substring-search-up
-done
-for key in '^[[B' '^N' "${terminfo[kcud1]}"; do
-  bindkey "${key}" history-substring-search-down
-done
-bindkey -M vicmd 'k' history-substring-search-up
-bindkey -M vicmd 'j' history-substring-search-down
-unset key
+if (( _zim_loaded )); then
+  zmodload -F zsh/terminfo +p:terminfo
+  for key in '^[[A' '^P' "${terminfo[kcuu1]}"; do
+    [[ -n ${key} ]] && bindkey "${key}" history-substring-search-up
+  done
+  for key in '^[[B' '^N' "${terminfo[kcud1]}"; do
+    [[ -n ${key} ]] && bindkey "${key}" history-substring-search-down
+  done
+  bindkey -M vicmd 'k' history-substring-search-up
+  bindkey -M vicmd 'j' history-substring-search-down
+  unset key
 
-zmodload zsh/complist
-bindkey -M menuselect 'h' vi-backward-char
-bindkey -M menuselect 'j' vi-down-line-or-history
-bindkey -M menuselect 'k' vi-up-line-or-history
-bindkey -M menuselect 'l' vi-forward-char
+  zmodload zsh/complist
+  bindkey -M menuselect 'h' vi-backward-char
+  bindkey -M menuselect 'j' vi-down-line-or-history
+  bindkey -M menuselect 'k' vi-up-line-or-history
+  bindkey -M menuselect 'l' vi-forward-char
+fi
+unset _zim_loaded
 
 # -----------------------------------------------------------------------------
 # Helpers
@@ -144,11 +169,12 @@ proxy_off() {
 # Tools
 # -----------------------------------------------------------------------------
 # zoxide
-eval "$(zoxide init zsh)"
+(( ${+commands[zoxide]} )) && eval "$(zoxide init zsh)"
+(( ${+commands[zoxide]} )) && alias cd='z'
 
 # direnv
 export DIRENV_LOG_FORMAT=
-eval "$(direnv hook zsh)"
+(( ${+commands[direnv]} )) && eval "$(direnv hook zsh)"
 
 # fzf
 export FZF_DEFAULT_OPTS_FILE="$XDG_CONFIG_HOME/fzf/config"
@@ -194,7 +220,7 @@ fe() {
   nvim "$file"
 }
 
-source <(fzf --zsh)
+(( ${+commands[fzf]} )) && source <(fzf --zsh)
 
 # WSL-only tools
 if grep -qi "microsoft" /proc/version 2>/dev/null || [[ -n "$WSL_DISTRO_NAME" ]]; then
@@ -208,22 +234,22 @@ fi
 export CONDA_HOME="$HOME/miniconda3"
 
 conda() {
-  unset -f conda
+  local conda_exe="$CONDA_HOME/bin/conda"
+  local conda_setup
 
-  if [ -f "$CONDA_HOME/bin/conda" ]; then
-    __conda_setup="$("$CONDA_HOME/bin/conda" "shell.zsh" "hook" 2>/dev/null)"
-    if [ $? -eq 0 ]; then
-      eval "$__conda_setup"
-    else
-      export PATH="$CONDA_HOME/bin:$PATH"
-    fi
-    unset __conda_setup
-  else
-    echo "conda not found at $CONDA_HOME/bin/conda"
+  if [[ ! -x "$conda_exe" ]]; then
+    print -u2 "conda not found at $conda_exe"
     return 1
   fi
 
-  conda "$@"
+  unset -f conda
+  conda_setup="$("$conda_exe" shell.zsh hook 2>/dev/null)"
+  if [[ -n "$conda_setup" ]] && eval "$conda_setup" && (( ${+functions[conda]} )); then
+    conda "$@"
+  else
+    path=("$CONDA_HOME/bin" $path)
+    "$conda_exe" "$@"
+  fi
 }
 
 activate() {
@@ -234,21 +260,13 @@ activate() {
 # Aliases
 # -----------------------------------------------------------------------------
 
-alias ls='ls -G'
-alias ll='ls -lh'
-alias la='ls -A'
-alias lla='ls -lha'
-
-export GREP_COLORS='ms=01;95:mc=01;95:sl=:cx=:fn=35:ln=32:bn=32:se=36'
-alias grep='grep --color=auto'
-
 alias nk='nvim'
 alias nl='NVIM_APPNAME="nvim-lazy" nvim'
 alias nn='NVIM_APPNAME="nvim-normal" nvim'
 alias nv='NVIM_APPNAME="nvim-nvchad" nvim'
 alias leet='nvim +"Leet"'
 
-alias cd='z'
+alias op='opencode --port'
 
 # Obsidian CLI alias
 alias ob='notesmd-cli'

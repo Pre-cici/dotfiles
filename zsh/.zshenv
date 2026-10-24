@@ -16,6 +16,7 @@ export PYTHONPYCACHEPREFIX="$XDG_CACHE_HOME/python"
 
 # npm
 export NPM_CONFIG_USERCONFIG="$XDG_CONFIG_HOME/npm/npmrc"
+export NPM_CONFIG_CACHE="$XDG_CACHE_HOME/npm"
 
 # Git
 export GIT_CONFIG_GLOBAL="$XDG_CONFIG_HOME/git/config"
@@ -37,10 +38,15 @@ export CARGO_HOME="${CARGO_HOME:-$HOME/.cargo}"
 export RUSTUP_HOME="${RUSTUP_HOME:-$HOME/.rustup}"
 
 # PATH
+typeset -U path PATH
 [[ -d "$HOME/.local/bin" ]] && path=("$HOME/.local/bin" $path)
 [[ -d "$CARGO_HOME/bin" ]] && path=("$CARGO_HOME/bin" $path)
 
-if [[ -x /home/linuxbrew/.linuxbrew/bin/brew ]]; then
+if [[ -x /opt/homebrew/bin/brew ]]; then
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+elif [[ -x /usr/local/bin/brew ]]; then
+  eval "$(/usr/local/bin/brew shellenv)"
+elif [[ -x /home/linuxbrew/.linuxbrew/bin/brew ]]; then
   eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 fi
 
