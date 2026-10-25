@@ -8,8 +8,11 @@ state_file="${state_dir%/}/tmux-network-speed-${UID:-$(id -u)}"
 read_counters() {
   case "$(uname -s)" in
     Linux)
-      awk -F '[: ]+' '
-        $1 !~ /^(|lo)$/ {
+      awk '
+        NR > 2 {
+          sub(":", "", $1)
+        }
+        NR > 2 && $1 != "lo" {
           received += $2
           transmitted += $10
         }
