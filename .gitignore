@@ -42,3 +42,10 @@ __pycache__/
 # temporary
 tmp/
 .cache/
+
+# opencode third-party suite (upstream git clone, updated via git pull)
+opencode/.config/opencode/academic-research-skills/
+
+# opencode runtime state
+opencode/.config/opencode/cli.json
+opencode/.config/opencode/service.json
